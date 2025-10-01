@@ -1,6 +1,5 @@
 package com.xycz.simplelive.core.model
 
-import androidx.compose.ui.graphics.Color
 import kotlinx.serialization.Serializable
 
 /**
@@ -85,8 +84,10 @@ data class LiveMessageColor(
         }
     }
 
-    /** Convert to Compose Color */
-    fun toComposeColor(): Color = Color(r, g, b)
+    /** Convert to Android color int (ARGB) */
+    fun toColorInt(): Int {
+        return (0xFF shl 24) or (r shl 16) or (g shl 8) or b
+    }
 
     /** Convert to hex string */
     fun toHexString(): String = "#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}"
