@@ -4,8 +4,12 @@ import com.xycz.simplelive.core.danmaku.LiveDanmaku
 import com.xycz.simplelive.core.model.*
 import com.xycz.simplelive.core.network.WebSocketClient
 import com.xycz.simplelive.core.network.WebSocketMessage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import okio.ByteString.Companion.toByteString
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -18,7 +22,8 @@ import java.util.zip.Inflater
 class BiliBiliDanmaku : LiveDanmaku {
 
     private var webSocketClient: WebSocketClient? = null
-    private var heartbeatJob: kotlinx.coroutines.Job? = null
+    private var heartbeatJob: Job? = null
+    private val heartbeatScope = CoroutineScope(Dispatchers.IO)
 
     companion object {
         // Protocol operation codes
@@ -99,7 +104,7 @@ class BiliBiliDanmaku : LiveDanmaku {
      * Start heartbeat timer
      */
     private fun startHeartbeat() {
-        heartbeatJob = kotlinx.coroutines.GlobalScope.launch {
+        heartbeatJob = heartbeatScope.launch {
             while (true) {
                 delay(30000) // Send heartbeat every 30 seconds
                 sendHeartbeat()
