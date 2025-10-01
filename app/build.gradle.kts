@@ -26,17 +26,11 @@ android {
     }
 
     signingConfigs {
-        // Debug signing is automatic (uses default debug keystore)
-        // Release signing - using debug keystore for now (no production secrets needed)
-        create("release") {
-            // For production, you should use proper keystore:
-            // storeFile = file("path/to/release.keystore")
-            // storePassword = System.getenv("KEYSTORE_PASSWORD")
-            // keyAlias = System.getenv("KEY_ALIAS")
-            // keyPassword = System.getenv("KEY_PASSWORD")
-
-            // For now, use debug signing for GitHub Actions
-            // This allows unsigned APK builds to succeed
+        // Use debug signing for both debug and release builds
+        // This avoids needing production keys and works in GitHub Actions
+        getByName("debug") {
+            // Uses default Android debug keystore (~/.android/debug.keystore)
+            // No configuration needed - automatically available
         }
     }
 
@@ -47,17 +41,22 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            // Debug builds automatically use debug keystore
+            signingConfig = signingConfigs.getByName("debug")
         }
         release {
+            // Use debug signing for release builds too
+            // This creates a signed, installable APK without needing production keys
+            signingConfig = signingConfigs.getByName("debug")
+
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            // Note: This will create an unsigned APK
-            // Sign it manually or set up signingConfig with production keys
+
+            // Note: This uses debug signing for convenience
+            // For Google Play Store, you'll need to set up proper production signing
         }
     }
 

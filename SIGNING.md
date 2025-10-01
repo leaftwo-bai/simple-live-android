@@ -1,6 +1,6 @@
 # Android App Signing Guide
 
-## Current Configuration
+## Current Configuration ✅
 
 ### Debug Builds ✅
 - **Status**: Fully configured and working
@@ -9,11 +9,13 @@
 - **Purpose**: Development and testing
 - **GitHub Actions**: Works out of the box
 
-### Release Builds ⚠️
-- **Status**: Currently builds **unsigned APKs**
-- **Output**: `app-release-unsigned.apk`
-- **Purpose**: For manual signing or testing
-- **Production**: Needs proper signing configuration
+### Release Builds ✅
+- **Status**: **Signed with debug keystore**
+- **Output**: `app-release.apk` (signed and installable!)
+- **Keystore**: Same as debug (no secrets needed)
+- **Purpose**: Testing, GitHub distribution, development
+- **GitHub Actions**: Works perfectly
+- **Production**: For Google Play, you'll need production signing later
 
 ## How Signing Works
 
@@ -106,38 +108,26 @@ base64 release.keystore > keystore.txt
 **Debug APK** (every push/PR):
 - ✅ Builds successfully
 - ✅ Signed with debug keystore automatically
-- ✅ Can be installed on any device
+- ✅ Can be installed on any device immediately
 - ✅ Downloads as `simple-live-debug.apk`
 
 **Release APK** (master branch only):
 - ✅ Builds successfully
-- ⚠️ **Unsigned** - needs manual signing
-- ✅ Downloads as `app-release-unsigned.apk`
-- ❌ Cannot be installed directly (unsigned)
+- ✅ **Signed with debug keystore** - ready to install!
+- ✅ Downloads as `simple-live-release.apk`
+- ✅ Can be installed on any device immediately
+- ✅ Includes ProGuard optimization and resource shrinking
 
-### How to Use Unsigned Release APK
+### Installation
 
-Option 1: **Sign manually with debug key (for testing):**
-```bash
-jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
-  -keystore ~/.android/debug.keystore \
-  app-release-unsigned.apk androiddebugkey
+**Both APKs are ready to install immediately!**
 
-zipalign -v 4 app-release-unsigned.apk app-release-signed.apk
-```
+1. Download from GitHub Actions artifacts
+2. Transfer to Android device
+3. Enable "Install from unknown sources" in settings
+4. Tap the APK file to install
 
-Option 2: **Sign with production key (for release):**
-```bash
-jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
-  -keystore release.keystore \
-  app-release-unsigned.apk simple-live
-
-zipalign -v 4 app-release-unsigned.apk app-release-signed.apk
-```
-
-Option 3: **Just use debug builds for testing**
-- Debug APKs are already signed and installable
-- Perfect for development and testing
+No additional signing needed!
 
 ## Recommendations
 
@@ -159,12 +149,12 @@ Google Play App Signing is recommended
 
 ## Summary
 
-| Build Type | Signing Status | Can Install? | GitHub Actions |
-|------------|----------------|--------------|----------------|
-| Debug | ✅ Signed (auto) | ✅ Yes | ✅ Working |
-| Release | ⚠️ Unsigned | ❌ No | ⚠️ Needs manual signing |
+| Build Type | Signing Status | Can Install? | GitHub Actions | Optimized |
+|------------|----------------|--------------|----------------|-----------|
+| Debug | ✅ Signed (debug key) | ✅ Yes | ✅ Working | ❌ No |
+| Release | ✅ Signed (debug key) | ✅ Yes | ✅ Working | ✅ Yes |
 
-**Bottom line:** The app **will build successfully** in GitHub Actions. Debug builds are ready to use immediately. Release builds need manual signing or additional setup.
+**Bottom line:** Both builds are **fully working** and **ready to install**! No setup needed!
 
 ## Quick Start
 
@@ -172,7 +162,9 @@ Google Play App Signing is recommended
 
 1. Push to GitHub
 2. Wait for GitHub Actions to complete
-3. Download `simple-live-debug.apk` artifact
+3. Download either APK artifact:
+   - `simple-live-debug.apk` - For debugging
+   - `simple-live-release.apk` - Optimized version (recommended)
 4. Install and use immediately ✅
 
-No signing setup needed for development!
+**No keystore setup needed! No secrets! No signing steps! Just works!** 🎉
