@@ -20,6 +20,11 @@ release/
 build/
 */build/
 
+# Gradle wrapper files (GitHub Actions will handle Gradle)
+gradle/
+gradlew
+gradlew.bat
+
 # Local configuration file (sdk path, etc)
 local.properties
 
