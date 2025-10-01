@@ -30,7 +30,8 @@ class HomeViewModel @Inject constructor(
 
     init {
         loadSites()
-        loadSiteOrder()
+        // Don't load site order on init - can cause ClassCastException
+        // loadSiteOrder()
     }
 
     /**

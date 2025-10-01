@@ -33,3 +33,35 @@
     java.lang.Object writeReplace();
     java.lang.Object readResolve();
 }
+
+# Kotlinx Serialization
+-keepattributes *Annotation*, InnerClasses
+-dontnote kotlinx.serialization.AnnotationsKt
+-keepclassmembers class kotlinx.serialization.json.** {
+    *** Companion;
+}
+-keepclasseswithmembers class kotlinx.serialization.json.** {
+    kotlinx.serialization.KSerializer serializer(...);
+}
+-keep,includedescriptorclasses class com.xycz.simplelive.**$$serializer { *; }
+-keepclassmembers class com.xycz.simplelive.** {
+    *** Companion;
+}
+-keepclasseswithmembers class com.xycz.simplelive.** {
+    kotlinx.serialization.KSerializer serializer(...);
+}
+
+# Keep generic signatures for proper type inference
+-keepattributes Signature
+-keepattributes *Annotation*
+
+# Keep ViewModel constructors for Hilt
+-keep class * extends androidx.lifecycle.ViewModel {
+    <init>(...);
+}
+
+# Keep DataStore Preferences
+-keep class androidx.datastore.** { *; }
+-keepclassmembers class * {
+    @androidx.datastore.core.Serializer *;
+}
