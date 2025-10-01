@@ -11,11 +11,11 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.xycz.simple_live"
+        applicationId = "com.test.simple_live"
         minSdk = 29  // Android 10
         targetSdk = 34
-        versionCode = 10904
-        versionName = "1.9.4"
+        versionCode = 1
+        versionName = "1.0.0"
 
         multiDexEnabled = true
 
