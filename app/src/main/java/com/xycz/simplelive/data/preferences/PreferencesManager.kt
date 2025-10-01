@@ -1,9 +1,7 @@
 package com.xycz.simplelive.data.preferences
 
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
-import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -15,144 +13,142 @@ import javax.inject.Singleton
  */
 @Singleton
 class PreferencesManager @Inject constructor(
-    private val context: Context
+    private val dataStore: DataStore<Preferences>
 ) {
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-
     // Theme settings
-    val themeMode: Flow<Int> = context.dataStore.data.map { prefs ->
+    val themeMode: Flow<Int> = dataStore.data.map { prefs ->
         prefs[THEME_MODE] ?: 0 // 0 = System, 1 = Light, 2 = Dark
     }
 
-    val isDynamicColor: Flow<Boolean> = context.dataStore.data.map { prefs ->
+    val isDynamicColor: Flow<Boolean> = dataStore.data.map { prefs ->
         prefs[DYNAMIC_COLOR] ?: true
     }
 
-    val styleColor: Flow<Int> = context.dataStore.data.map { prefs ->
+    val styleColor: Flow<Int> = dataStore.data.map { prefs ->
         prefs[STYLE_COLOR] ?: 0xFF6200EE.toInt()
     }
 
     // Danmaku settings
-    val enableDanmaku: Flow<Boolean> = context.dataStore.data.map { prefs ->
+    val enableDanmaku: Flow<Boolean> = dataStore.data.map { prefs ->
         prefs[ENABLE_DANMAKU] ?: true
     }
 
-    val danmakuArea: Flow<Float> = context.dataStore.data.map { prefs ->
+    val danmakuArea: Flow<Float> = dataStore.data.map { prefs ->
         prefs[DANMAKU_AREA] ?: 0.5f
     }
 
-    val danmakuSpeed: Flow<Int> = context.dataStore.data.map { prefs ->
+    val danmakuSpeed: Flow<Int> = dataStore.data.map { prefs ->
         prefs[DANMAKU_SPEED] ?: 8
     }
 
-    val danmakuFontSize: Flow<Float> = context.dataStore.data.map { prefs ->
+    val danmakuFontSize: Flow<Float> = dataStore.data.map { prefs ->
         prefs[DANMAKU_FONT_SIZE] ?: 16f
     }
 
-    val danmakuFontBorder: Flow<Float> = context.dataStore.data.map { prefs ->
+    val danmakuFontBorder: Flow<Float> = dataStore.data.map { prefs ->
         prefs[DANMAKU_FONT_BORDER] ?: 0.5f
     }
 
-    val danmakuOpacity: Flow<Float> = context.dataStore.data.map { prefs ->
+    val danmakuOpacity: Flow<Float> = dataStore.data.map { prefs ->
         prefs[DANMAKU_OPACITY] ?: 1.0f
     }
 
     // Player settings
-    val preferResolution: Flow<String> = context.dataStore.data.map { prefs ->
+    val preferResolution: Flow<String> = dataStore.data.map { prefs ->
         prefs[PREFER_RESOLUTION] ?: "原画"
     }
 
-    val preferPlatform: Flow<String> = context.dataStore.data.map { prefs ->
+    val preferPlatform: Flow<String> = dataStore.data.map { prefs ->
         prefs[PREFER_PLATFORM] ?: "web"
     }
 
-    val autoFullScreen: Flow<Boolean> = context.dataStore.data.map { prefs ->
+    val autoFullScreen: Flow<Boolean> = dataStore.data.map { prefs ->
         prefs[AUTO_FULLSCREEN] ?: false
     }
 
     // Site settings
-    val siteSort: Flow<List<String>> = context.dataStore.data.map { prefs ->
+    val siteSort: Flow<List<String>> = dataStore.data.map { prefs ->
         val sortString = prefs[SITE_SORT] ?: "bilibili,douyu,huya,douyin"
         sortString.split(",")
     }
 
     // Auto exit settings
-    val autoExitEnable: Flow<Boolean> = context.dataStore.data.map { prefs ->
+    val autoExitEnable: Flow<Boolean> = dataStore.data.map { prefs ->
         prefs[AUTO_EXIT_ENABLE] ?: false
     }
 
-    val autoExitDuration: Flow<Int> = context.dataStore.data.map { prefs ->
+    val autoExitDuration: Flow<Int> = dataStore.data.map { prefs ->
         prefs[AUTO_EXIT_DURATION] ?: 60
     }
 
     // Follow settings
-    val followRefreshInterval: Flow<Int> = context.dataStore.data.map { prefs ->
+    val followRefreshInterval: Flow<Int> = dataStore.data.map { prefs ->
         prefs[FOLLOW_REFRESH_INTERVAL] ?: 60
     }
 
     // Update functions
     suspend fun setThemeMode(mode: Int) {
-        context.dataStore.edit { prefs -> prefs[THEME_MODE] = mode }
+        dataStore.edit { prefs -> prefs[THEME_MODE] = mode }
     }
 
     suspend fun setDynamicColor(enabled: Boolean) {
-        context.dataStore.edit { prefs -> prefs[DYNAMIC_COLOR] = enabled }
+        dataStore.edit { prefs -> prefs[DYNAMIC_COLOR] = enabled }
     }
 
     suspend fun setStyleColor(color: Int) {
-        context.dataStore.edit { prefs -> prefs[STYLE_COLOR] = color }
+        dataStore.edit { prefs -> prefs[STYLE_COLOR] = color }
     }
 
     suspend fun setEnableDanmaku(enabled: Boolean) {
-        context.dataStore.edit { prefs -> prefs[ENABLE_DANMAKU] = enabled }
+        dataStore.edit { prefs -> prefs[ENABLE_DANMAKU] = enabled }
     }
 
     suspend fun setDanmakuArea(area: Float) {
-        context.dataStore.edit { prefs -> prefs[DANMAKU_AREA] = area }
+        dataStore.edit { prefs -> prefs[DANMAKU_AREA] = area }
     }
 
     suspend fun setDanmakuSpeed(speed: Int) {
-        context.dataStore.edit { prefs -> prefs[DANMAKU_SPEED] = speed }
+        dataStore.edit { prefs -> prefs[DANMAKU_SPEED] = speed }
     }
 
     suspend fun setDanmakuFontSize(size: Float) {
-        context.dataStore.edit { prefs -> prefs[DANMAKU_FONT_SIZE] = size }
+        dataStore.edit { prefs -> prefs[DANMAKU_FONT_SIZE] = size }
     }
 
     suspend fun setDanmakuFontBorder(border: Float) {
-        context.dataStore.edit { prefs -> prefs[DANMAKU_FONT_BORDER] = border }
+        dataStore.edit { prefs -> prefs[DANMAKU_FONT_BORDER] = border }
     }
 
     suspend fun setDanmakuOpacity(opacity: Float) {
-        context.dataStore.edit { prefs -> prefs[DANMAKU_OPACITY] = opacity }
+        dataStore.edit { prefs -> prefs[DANMAKU_OPACITY] = opacity }
     }
 
     suspend fun setPreferResolution(resolution: String) {
-        context.dataStore.edit { prefs -> prefs[PREFER_RESOLUTION] = resolution }
+        dataStore.edit { prefs -> prefs[PREFER_RESOLUTION] = resolution }
     }
 
     suspend fun setPreferPlatform(platform: String) {
-        context.dataStore.edit { prefs -> prefs[PREFER_PLATFORM] = platform }
+        dataStore.edit { prefs -> prefs[PREFER_PLATFORM] = platform }
     }
 
     suspend fun setAutoFullScreen(enabled: Boolean) {
-        context.dataStore.edit { prefs -> prefs[AUTO_FULLSCREEN] = enabled }
+        dataStore.edit { prefs -> prefs[AUTO_FULLSCREEN] = enabled }
     }
 
     suspend fun setSiteSort(sites: List<String>) {
-        context.dataStore.edit { prefs -> prefs[SITE_SORT] = sites.joinToString(",") }
+        dataStore.edit { prefs -> prefs[SITE_SORT] = sites.joinToString(",") }
     }
 
     suspend fun setAutoExitEnable(enabled: Boolean) {
-        context.dataStore.edit { prefs -> prefs[AUTO_EXIT_ENABLE] = enabled }
+        dataStore.edit { prefs -> prefs[AUTO_EXIT_ENABLE] = enabled }
     }
 
     suspend fun setAutoExitDuration(duration: Int) {
-        context.dataStore.edit { prefs -> prefs[AUTO_EXIT_DURATION] = duration }
+        dataStore.edit { prefs -> prefs[AUTO_EXIT_DURATION] = duration }
     }
 
     suspend fun setFollowRefreshInterval(interval: Int) {
-        context.dataStore.edit { prefs -> prefs[FOLLOW_REFRESH_INTERVAL] = interval }
+        dataStore.edit { prefs -> prefs[FOLLOW_REFRESH_INTERVAL] = interval }
     }
 
     companion object {
