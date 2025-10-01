@@ -24,9 +24,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var preferencesManager: PreferencesManager
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,16 +34,9 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            val themeMode by preferencesManager.themeMode.collectAsState(initial = 0)
-            val isDynamicColor by preferencesManager.isDynamicColor.collectAsState(initial = true)
-
             SimpleLiveTheme(
-                darkTheme = when (themeMode) {
-                    1 -> false // Light
-                    2 -> true  // Dark
-                    else -> false // System (will be handled in theme)
-                },
-                dynamicColor = isDynamicColor
+                darkTheme = false, // Default to light theme for now
+                dynamicColor = true
             ) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),

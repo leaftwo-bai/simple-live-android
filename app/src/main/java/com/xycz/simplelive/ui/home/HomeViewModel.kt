@@ -16,7 +16,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val preferencesManager: PreferencesManager,
+    // private val preferencesManager: PreferencesManager,
     private val getAllSitesUseCase: GetAllSitesUseCase,
     private val getRecommendRoomsUseCase: GetRecommendRoomsUseCase
 ) : ViewModel() {
