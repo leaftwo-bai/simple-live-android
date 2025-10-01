@@ -50,7 +50,9 @@ class HomeViewModel @Inject constructor(
 
     /**
      * Load site order from preferences
+     * Temporarily disabled - causing ClassCastException in release builds
      */
+    /*
     private fun loadSiteOrder() {
         viewModelScope.launch {
             preferencesManager.siteSort.collectLatest { sortedIds ->
@@ -66,6 +68,7 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+    */
 
     /**
      * Select a site/platform

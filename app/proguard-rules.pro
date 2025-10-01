@@ -1,5 +1,12 @@
 # Add project specific ProGuard rules here.
 
+# Keep ALL app classes to prevent reflection issues
+# This is aggressive but ensures no ClassCastException
+-keep class com.xycz.simplelive.** { *; }
+-keep class com.xycz.simplelive.core.** { *; }
+-keepclassmembers class com.xycz.simplelive.** { *; }
+-keepclassmembers class com.xycz.simplelive.core.** { *; }
+
 # Keep data classes used with Room and Retrofit
 -keep class com.xycz.simplelive.data.** { *; }
 -keep class com.xycz.simplelive.domain.model.** { *; }

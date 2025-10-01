@@ -34,8 +34,9 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
+            // Use default theme settings (ProGuard rules now fixed)
             SimpleLiveTheme(
-                darkTheme = false, // Default to light theme for now
+                darkTheme = false,
                 dynamicColor = true
             ) {
                 Surface(
