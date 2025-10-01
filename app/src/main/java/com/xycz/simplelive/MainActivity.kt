@@ -7,15 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import com.xycz.simplelive.data.preferences.PreferencesManager
 import com.xycz.simplelive.ui.navigation.SimpleLiveNavGraph
 import com.xycz.simplelive.ui.theme.SimpleLiveTheme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 /**
  * Main Activity

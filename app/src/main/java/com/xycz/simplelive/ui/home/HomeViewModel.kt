@@ -3,7 +3,6 @@ package com.xycz.simplelive.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xycz.simplelive.core.model.LiveRoomItem
-import com.xycz.simplelive.data.preferences.PreferencesManager
 import com.xycz.simplelive.domain.usecase.GetAllSitesUseCase
 import com.xycz.simplelive.domain.usecase.GetRecommendRoomsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
