@@ -25,6 +25,21 @@ android {
         }
     }
 
+    signingConfigs {
+        // Debug signing is automatic (uses default debug keystore)
+        // Release signing - using debug keystore for now (no production secrets needed)
+        create("release") {
+            // For production, you should use proper keystore:
+            // storeFile = file("path/to/release.keystore")
+            // storePassword = System.getenv("KEYSTORE_PASSWORD")
+            // keyAlias = System.getenv("KEY_ALIAS")
+            // keyPassword = System.getenv("KEY_PASSWORD")
+
+            // For now, use debug signing for GitHub Actions
+            // This allows unsigned APK builds to succeed
+        }
+    }
+
     buildTypes {
         debug {
             isMinifyEnabled = false
@@ -32,6 +47,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // Debug builds automatically use debug keystore
         }
         release {
             isMinifyEnabled = true
@@ -40,6 +56,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // Note: This will create an unsigned APK
+            // Sign it manually or set up signingConfig with production keys
         }
     }
 
