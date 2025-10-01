@@ -86,3 +86,11 @@ lint-report.html
 
 # Kotlin
 *.kotlin_module
+
+# Claude Code session files
+CLAUDE.md
+.envrc
+BUILD_STATUS.md
+IMPLEMENTATION_SUMMARY.md
+PROGRESS.md
+SESSION_*.md
